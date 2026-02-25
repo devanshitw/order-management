@@ -34,7 +34,7 @@ import { OfferModule } from './modules/offer/offer.module';
       entities: [__dirname + '/database/entities/*.entity{.ts,.js}'],
       migrations: [__dirname + '/database/migrations/*{.ts,.js}'],
       synchronize: false,
-    })
+    }),
     AuthModule,
     MenuModule,
     CartModule,
