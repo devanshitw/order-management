@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Food Delivery Order Management Backend",
   "scripts": {
-    "build": "npx nest build",
+    "build": "tsc -p tsconfig.build.json",
     "start": "node dist/src/main.js",
     "start:dev": "npx nest start --watch",
     "start:prod": "node dist/src/main.js",
