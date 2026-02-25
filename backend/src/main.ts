@@ -20,21 +20,28 @@ async function bootstrap(): Promise<void> {
 
     app.setGlobalPrefix(API_PREFIX);
 
+    // ✅ CORS Configuration (No CorsOptions import needed)
     app.enableCors({
-      origin: (origin, callback) => {
-        console.log('origin: ', origin);
+      origin: (
+        origin: string | undefined,
+        callback: (err: Error | null, allow?: boolean) => void,
+      ) => {
         const allowedOrigins = [
           process.env.FRONTEND_URL,
           'http://localhost:5173',
-        ];
+        ].filter(Boolean);
 
-        if (!origin || allowedOrigins.includes(origin)) {
+        // Allow server-to-server or Postman (no origin)
+        if (!origin) {
+          return callback(null, true);
+        }
+
+        if (allowedOrigins.includes(origin)) {
           callback(null, true);
         } else {
-          callback(new Error('Not allowed by CORS'));
+          callback(new Error(`Not allowed by CORS: ${origin}`));
         }
       },
-      credentials: true,
     });
 
     app.useGlobalPipes(
@@ -75,11 +82,13 @@ async function bootstrap(): Promise<void> {
   } catch (error) {
     const errorMessage =
       error instanceof Error ? error.message : 'Unknown error';
+
     Logger.error(
       `Failed to start application: ${errorMessage}`,
       error instanceof Error ? error.stack : undefined,
       'Bootstrap',
     );
+
     process.exit(1);
   }
 }
