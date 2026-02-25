@@ -1,4 +1,10 @@
 import { DataSource } from 'typeorm';
+console.log('DATABASE_URL:', process.env.DATABASE_URL);
+console.log('NODE_ENV:', process.env.NODE_ENV);
+
+if (!process.env.DATABASE_URL) {
+  throw new Error('DATABASE_URL is not defined!');
+}
 
 export const AppDataSource = new DataSource({
   type: 'postgres',

@@ -15,15 +15,26 @@ import { OfferModule } from './modules/offer/offer.module';
     LoggerModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: CONFIG.DB_HOST,
-      port: CONFIG.DB_PORT,
-      username: CONFIG.DB_USER,
-      password: CONFIG.DB_PASSWORD,
-      database: CONFIG.DB_NAME,
+
+      ...(process.env.DATABASE_URL
+        ? {
+            url: process.env.DATABASE_URL,
+            ssl: {
+              rejectUnauthorized: false,
+            },
+          }
+        : {
+            host: CONFIG.DB_HOST,
+            port: CONFIG.DB_PORT,
+            username: CONFIG.DB_USER,
+            password: CONFIG.DB_PASSWORD,
+            database: CONFIG.DB_NAME,
+          }),
+
       entities: [__dirname + '/database/entities/*.entity{.ts,.js}'],
       migrations: [__dirname + '/database/migrations/*{.ts,.js}'],
       synchronize: false,
-    }),
+    })
     AuthModule,
     MenuModule,
     CartModule,
