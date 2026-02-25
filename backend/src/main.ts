@@ -21,7 +21,19 @@ async function bootstrap(): Promise<void> {
     app.setGlobalPrefix(API_PREFIX);
 
     app.enableCors({
-      origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+      origin: (origin, callback) => {
+        console.log('origin: ', origin);
+        const allowedOrigins = [
+          process.env.FRONTEND_URL,
+          'http://localhost:5173',
+        ];
+
+        if (!origin || allowedOrigins.includes(origin)) {
+          callback(null, true);
+        } else {
+          callback(new Error('Not allowed by CORS'));
+        }
+      },
       credentials: true,
     });
 
