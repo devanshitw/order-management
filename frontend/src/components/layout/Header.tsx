@@ -20,7 +20,7 @@ export default function Header() {
             to="/"
             className="flex items-center gap-2 text-2xl font-bold text-white hover:text-gray-100 transition-colors no-underline"
           >
-            <span className="text-3xl">🍽️</span>
+            <span className="text-3xl"><img src="https://dcassetcdn.com/design_img/1762714/190740/190740_9544876_1762714_e77aaf83_image.jpg" alt="Logo" className="w-8 h-8" /></span>
             <span className="hidden sm:inline">Click and Eat</span>
           </Link>
 

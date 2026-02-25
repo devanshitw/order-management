@@ -16,7 +16,7 @@ export default function LoginPage() {
       await login(email, password);
       navigate('/menu');
     } catch (err: any) {
-      setError(err?.message || 'Login failed');
+      setError(err || 'Login failed');
     }
   };
 

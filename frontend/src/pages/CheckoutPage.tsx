@@ -104,7 +104,7 @@ export default function CheckoutPage() {
       });
       navigate(`/orders/${res.order.id}`);
     } catch (err: any) {
-      setError(err?.message || 'Failed to place order');
+      setError(err || 'Failed to place order');
     } finally {
       setSubmitting(false);
     }

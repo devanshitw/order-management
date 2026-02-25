@@ -72,7 +72,7 @@ export class AuthService {
       });
 
       if (!user) {
-        throw new BadRequestException(errorMessage.PASSWORD.INVALID_PASSWORD);
+        throw new BadRequestException(errorMessage.PASSWORD.USER_NOT_FOUND);
       }
 
       const match = await bcrypt.compare(dto.password, user.password);

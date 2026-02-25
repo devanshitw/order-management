@@ -41,7 +41,6 @@ export default function MenuPage() {
       })
       .catch((err) => {
         if (currentRequestId !== requestIdRef.current) return;
-        console.error('Failed to fetch menu items:', err);
         setError('Failed to load dishes. Please try again.');
         setItems([]);
       })

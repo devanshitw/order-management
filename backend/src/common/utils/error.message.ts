@@ -13,6 +13,7 @@ export const errorMessage = {
 
   PASSWORD: {
     INVALID_PASSWORD: 'Invalid email or password',
+    USER_NOT_FOUND: 'User not found',
   },
 
   AUTH: {
