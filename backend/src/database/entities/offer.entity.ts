@@ -1,6 +1,6 @@
 import { Entity, Column } from 'typeorm';
-import { BaseEntity } from 'src/common/entities/base.entity';
-import { DiscountType } from 'src/common/types/offer.types';
+import { BaseEntity } from '../../common/entities/base.entity';
+import { DiscountType } from '../../common/types/offer.types';
 
 @Entity('offers')
 export class Offer extends BaseEntity {

@@ -1,11 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
-import { CartService } from 'src/modules/cart/cart.service';
-import { Cart } from 'src/database/entities/cart.entity';
-import { CartItem } from 'src/database/entities/cart-item.entity';
-import { MenuItem } from 'src/database/entities/menu-item.entity';
-import { CustomLogger } from 'src/common/logger';
+import { CartService } from '../../modules/cart/cart.service';
+import { Cart } from '../../database/entities/cart.entity';
+import { CartItem } from '../../database/entities/cart-item.entity';
+import { MenuItem } from '../../database/entities/menu-item.entity';
+import { CustomLogger } from '../../common/logger';
 
 describe('CartService', () => {
   let service: CartService;

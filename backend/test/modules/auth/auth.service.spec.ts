@@ -2,9 +2,9 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { JwtService } from '@nestjs/jwt';
 import { BadRequestException } from '@nestjs/common';
-import { AuthService } from 'src/modules/auth/auth.service';
-import { User } from 'src/database/entities/user.entity';
-import { CustomLogger } from 'src/common/logger';
+import { AuthService } from '../../modules/auth/auth.service';
+import { User } from '../../database/entities/user.entity';
+import { CustomLogger } from '../../common/logger';
 import * as bcrypt from 'bcryptjs';
 
 jest.mock('bcryptjs', () => ({

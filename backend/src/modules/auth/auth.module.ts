@@ -4,8 +4,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
-import { User } from 'src/database/entities/user.entity';
-import { CONFIG } from 'src/common/constants/config.common';
+import { User } from '../../database/entities/user.entity';
+import { CONFIG } from '../../common/constants/config.common';
 
 @Module({
   imports: [

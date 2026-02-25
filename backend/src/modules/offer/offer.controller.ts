@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { OfferService } from './offer.service';
-import { responseMessage } from 'src/common/utils/response.message';
+import { responseMessage } from '../../common/utils/response.message';
 
 @Controller('offers')
 export class OfferController {

@@ -7,8 +7,8 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from 'src/database/entities/user.entity';
-import { errorMessage } from 'src/common/utils/error.message';
+import { User } from '../../database/entities/user.entity';
+import { errorMessage } from '../../common/utils/error.message';
 import { Request } from 'express';
 
 export interface AuthenticatedRequest extends Request {

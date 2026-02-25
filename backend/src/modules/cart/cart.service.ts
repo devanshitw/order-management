@@ -5,13 +5,13 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Cart } from 'src/database/entities/cart.entity';
-import { CartItem } from 'src/database/entities/cart-item.entity';
-import { MenuItem } from 'src/database/entities/menu-item.entity';
+import { Cart } from '../../database/entities/cart.entity';
+import { CartItem } from '../../database/entities/cart-item.entity';
+import { MenuItem } from '../../database/entities/menu-item.entity';
 import { AddToCartDto } from './dto/add-to-cart.dto';
 import { UpdateCartItemDto } from './dto/update-cart-item.dto';
-import { errorMessage } from 'src/common/utils/error.message';
-import { CustomLogger } from 'src/common/logger';
+import { errorMessage } from '../../common/utils/error.message';
+import { CustomLogger } from '../../common/logger';
 
 @Injectable()
 export class CartService {

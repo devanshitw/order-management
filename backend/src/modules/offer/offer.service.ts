@@ -1,10 +1,10 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, IsNull, LessThanOrEqual, MoreThanOrEqual } from 'typeorm';
-import { Offer } from 'src/database/entities/offer.entity';
-import { DiscountType } from 'src/common/types/offer.types';
-import { errorMessage } from 'src/common/utils/error.message';
-import { CustomLogger } from 'src/common/logger';
+import { Offer } from '../../database/entities/offer.entity';
+import { DiscountType } from '../../common/types/offer.types';
+import { errorMessage } from '../../common/utils/error.message';
+import { CustomLogger } from '../../common/logger';
 
 @Injectable()
 export class OfferService {

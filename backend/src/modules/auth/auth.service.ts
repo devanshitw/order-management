@@ -6,13 +6,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
-import { User } from 'src/database/entities/user.entity';
+import { User } from '../../database/entities/user.entity';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
-import { errorMessage } from 'src/common/utils/error.message';
-import { responseMessage } from 'src/common/utils/response.message';
-import { CONFIG } from 'src/common/constants/config.common';
-import { CustomLogger } from 'src/common/logger';
+import { errorMessage } from '../../common/utils/error.message';
+import { responseMessage } from '../../common/utils/response.message';
+import { CONFIG } from '../../common/constants/config.common';
+import { CustomLogger } from '../../common/logger';
 
 @Injectable()
 export class AuthService {

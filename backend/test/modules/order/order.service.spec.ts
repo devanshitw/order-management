@@ -2,14 +2,14 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
-import { OrderService } from 'src/modules/order/order.service';
-import { OfferService } from 'src/modules/offer/offer.service';
-import { Order } from 'src/database/entities/order.entity';
-import { OrderItem } from 'src/database/entities/order-item.entity';
-import { Cart } from 'src/database/entities/cart.entity';
-import { CartItem } from 'src/database/entities/cart-item.entity';
-import { OrderStatus } from 'src/common/types/order.types';
-import { CustomLogger } from 'src/common/logger';
+import { OrderService } from '../../modules/order/order.service';
+import { OfferService } from '../../modules/offer/offer.service';
+import { Order } from '../../database/entities/order.entity';
+import { OrderItem } from '../../database/entities/order-item.entity';
+import { Cart } from '../../database/entities/cart.entity';
+import { CartItem } from '../../database/entities/cart-item.entity';
+import { OrderStatus } from '../../common/types/order.types';
+import { CustomLogger } from '../../common/logger';
 
 describe('OrderService', () => {
   let service: OrderService;

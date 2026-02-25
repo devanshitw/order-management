@@ -1,12 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { NotFoundException } from '@nestjs/common';
-import { MenuService } from 'src/modules/menu/menu.service';
-import { MenuItem } from 'src/database/entities/menu-item.entity';
-import { Category } from 'src/database/entities/category.entity';
-import { Order } from 'src/database/entities/order.entity';
-import { OrderItem } from 'src/database/entities/order-item.entity';
-import { CustomLogger } from 'src/common/logger';
+import { MenuService } from '../../modules/menu/menu.service';
+import { MenuItem } from '../../database/entities/menu-item.entity';
+import { Category } from '../../database/entities/category.entity';
+import { Order } from '../../database/entities/order.entity';
+import { OrderItem } from '../../database/entities/order-item.entity';
+import { CustomLogger } from '../../common/logger';
 
 describe('MenuService', () => {
   let service: MenuService;
