@@ -32,8 +32,23 @@ export class Order extends BaseEntity {
   @Column({ type: 'varchar', length: 50, nullable: true })
   coupon_code?: string;
 
-  @Column({ type: 'varchar', length: 500, nullable: true })
-  delivery_address?: string;
+  @Column({ type: 'varchar', length: 200 })
+  address_line1: string;
+
+  @Column({ type: 'varchar', length: 200, nullable: true })
+  address_line2?: string;
+
+  @Column({ type: 'varchar', length: 100 })
+  city: string;
+
+  @Column({ type: 'varchar', length: 100 })
+  state: string;
+
+  @Column({ type: 'varchar', length: 20 })
+  postal_code: string;
+
+  @Column({ type: 'varchar', length: 100 })
+  country: string;
 
   @Column({ type: 'text', nullable: true })
   notes?: string;

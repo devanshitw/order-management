@@ -75,6 +75,7 @@ export class OrderService {
         const offer = await this.offerService.validateCoupon(
           dto.coupon_code,
           subtotal,
+          userId,
         );
         discountAmount = this.offerService.calculateDiscount(offer, subtotal);
         couponCode = offer.coupon_code;
@@ -90,7 +91,12 @@ export class OrderService {
         total_amount: totalAmount,
         discount_amount: discountAmount,
         coupon_code: couponCode,
-        delivery_address: dto.delivery_address,
+        address_line1: dto.address_line1,
+        address_line2: dto.address_line2,
+        city: dto.city,
+        state: dto.state,
+        postal_code: dto.postal_code,
+        country: dto.country,
         notes: dto.notes,
         estimated_delivery_at: new Date(Date.now() + 45 * 60 * 1000), // 45 min
       });
@@ -305,5 +311,52 @@ export class OrderService {
         data: { order_id: orderId, status, updated_at: new Date() },
       } as any);
     }
+  }
+
+  async repeatOrder(userId: string, orderId: string) {
+    // Find the original order and its items
+    const originalOrder = await this.orderRepo.findOne({
+      where: { id: orderId, user_id: userId, is_deleted: false },
+      relations: ['items'],
+    });
+    if (!originalOrder) {
+      throw new NotFoundException(errorMessage.ORDER.NOT_FOUND);
+    }
+
+    // Prepare new order data (copy address, but not status, number, etc.)
+    const newOrder = this.orderRepo.create({
+      user_id: userId,
+      status: OrderStatus.PLACED,
+      total_amount: originalOrder.total_amount,
+      discount_amount: originalOrder.discount_amount,
+      coupon_code: originalOrder.coupon_code,
+      address_line1: originalOrder.address_line1,
+      address_line2: originalOrder.address_line2,
+      city: originalOrder.city,
+      state: originalOrder.state,
+      postal_code: originalOrder.postal_code,
+      country: originalOrder.country,
+      notes: originalOrder.notes,
+      estimated_delivery_at: new Date(Date.now() + 45 * 60 * 1000),
+    });
+    // Save new order to get ID
+    const savedOrder = await this.orderRepo.save(newOrder);
+
+    // Duplicate order items
+    const newItems = originalOrder.items.map((item) =>
+      this.orderItemRepo.create({
+        order_id: savedOrder.id,
+        menu_item_id: item.menu_item_id,
+        quantity: item.quantity,
+        unit_price: item.unit_price,
+        subtotal: item.subtotal,
+      })
+    );
+    await this.orderItemRepo.save(newItems);
+
+    return {
+      message: 'Order repeated successfully',
+      order: savedOrder,
+    };
   }
 }

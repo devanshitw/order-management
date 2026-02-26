@@ -67,4 +67,12 @@ export class OrderController {
   statusStream(@Param('id') id: string): Observable<MessageEvent> {
     return this.orderService.subscribeToStatus(id);
   }
+
+  @Post(':id/repeat')
+  async repeatOrder(
+    @Req() req: AuthenticatedRequest,
+    @Param('id') id: string,
+  ) {
+    return this.orderService.repeatOrder(req.user.id, id);
+  }
 }

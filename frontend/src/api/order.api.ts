@@ -3,7 +3,12 @@ import { Order } from '../types';
 
 export const orderApi = {
   placeOrder: (data: {
-    delivery_address?: string;
+    address_line1: string;
+    address_line2?: string;
+    city: string;
+    state: string;
+    postal_code: string;
+    country: string;
     notes?: string;
     coupon_code?: string;
   }) =>

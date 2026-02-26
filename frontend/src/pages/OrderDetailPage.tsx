@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { orderApi } from '../api/order.api';
+import { cartApi } from '../api/cart.api';
 import { Order, OrderStatus } from '../types';
 import OrderStatusTimeline from '../components/order/OrderStatusTimeline';
 import OrderStatusBadge from '../components/order/OrderStatusBadge';
@@ -11,6 +12,9 @@ export default function OrderDetailPage() {
   const [order, setOrder] = useState<Order | null>(null);
   const [loading, setLoading] = useState(true);
   const [simulating, setSimulating] = useState(false);
+
+  const [reordering, setReordering] = useState(false);
+  const navigate = useNavigate();
 
   const fetchOrder = () => {
     if (!id) return;
@@ -45,6 +49,21 @@ export default function OrderDetailPage() {
       await orderApi.simulate(id);
     } finally {
       setSimulating(false);
+    }
+  };
+
+  const handleReorder = async () => {
+    if (!order || !order.items || order.items.length === 0) return;
+    setReordering(true);
+    try {
+      // Clear cart first (optional)
+      await cartApi.clearCart();
+      for (const item of order.items) {
+        await cartApi.addItem({ menu_item_id: item.menu_item.id, quantity: item.quantity });
+      }
+      navigate('/cart');
+    } finally {
+      setReordering(false);
     }
   };
 
@@ -87,50 +106,38 @@ export default function OrderDetailPage() {
         </div>
 
         {/* Simulate Button */}
-        {order.status !== OrderStatus.DELIVERED &&
-          order.status !== OrderStatus.CANCELLED && (
-            <div className="mt-6 flex justify-center">
-              <button
-                onClick={handleSimulate}
-                disabled={simulating}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-all shadow-button disabled:opacity-50 disabled:cursor-not-allowed active:scale-95"
-              >
-                {simulating ? (
-                  <span className="flex items-center gap-2">
-                    <span className="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
-                    Simulating...
-                  </span>
-                ) : (
-                  <span className="flex items-center gap-2">
-                    ⚡ Simulate Status Progression
-                  </span>
+              {order.status !== OrderStatus.DELIVERED &&
+                order.status !== OrderStatus.CANCELLED && (
+                  <div className="mt-6 flex justify-center">
+                    <button
+                      onClick={handleSimulate}
+                      disabled={simulating}
+                      className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-all shadow-button disabled:opacity-50 disabled:cursor-not-allowed active:scale-95"
+                    >
+                      {simulating ? (
+                        <span className="flex items-center gap-2">
+                          <span className="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                          Simulating...
+                        </span>
+                      ) : (
+                        <span className="flex items-center gap-2">
+                          ⚡ Simulate Status Progression
+                        </span>
+                      )}
+                    </button>
+                  </div>
                 )}
-              </button>
-            </div>
-          )}
-      </div>
 
-      {/* Order Details */}
-      <div className="card p-6 mb-6">
-        <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-          📝 Order Details
-        </h3>
-        <div className="space-y-3">
-          <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
-            <span className="text-xl">📅</span>
-            <div>
-              <p className="text-sm text-gray-600 font-medium">Placed</p>
-              <p className="text-gray-900">
-                {new Date(order.created_at).toLocaleString('en-IN', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                  hour: '2-digit',
-                  minute: '2-digit'
-                })}
-              </p>
-            </div>
-          </div>
+              {/* Reorder Button */}
+              <div className="mt-6 flex justify-center">
+                <button
+                  onClick={handleReorder}
+                  disabled={reordering}
+                  className="bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-lg font-medium transition-all shadow-button disabled:opacity-50 disabled:cursor-not-allowed active:scale-95"
+                >
+                  {reordering ? 'Reordering...' : 'Reorder'}
+                </button>
+
 
           {order.estimated_delivery_at && (
             <div className="flex items-start gap-3 p-3 bg-secondary-50 rounded-lg border border-secondary-200">

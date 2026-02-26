@@ -66,7 +66,12 @@ export interface Order {
   total_amount: number;
   discount_amount?: number;
   coupon_code?: string;
-  delivery_address?: string;
+  address_line1: string;
+  address_line2?: string;
+  city: string;
+  state: string;
+  postal_code: string;
+  country: string;
   notes?: string;
   estimated_delivery_at?: string;
   delivered_at?: string;

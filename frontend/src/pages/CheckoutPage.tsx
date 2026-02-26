@@ -6,7 +6,12 @@ import { offerApi } from '../api/offer.api';
 import { Offer, DiscountType } from '../types';
 
 export default function CheckoutPage() {
-  const [address, setAddress] = useState('');
+  const [addressLine1, setAddressLine1] = useState('');
+  const [addressLine2, setAddressLine2] = useState('');
+  const [city, setCity] = useState('');
+  const [state, setState] = useState('');
+  const [postalCode, setPostalCode] = useState('');
+  const [country, setCountry] = useState('');
   const [notes, setNotes] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
@@ -91,14 +96,35 @@ export default function CheckoutPage() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError('');
-    if (!address.trim()) {
-      setError('Please enter a delivery address');
+    if (!addressLine1.trim()) {
+      setError('Address Line 1 is required');
+      return;
+    }
+    if (!city.trim()) {
+      setError('City is required');
+      return;
+    }
+    if (!state.trim()) {
+      setError('State is required');
+      return;
+    }
+    if (!postalCode.trim()) {
+      setError('Postal code is required');
+      return;
+    }
+    if (!country.trim()) {
+      setError('Country is required');
       return;
     }
     setSubmitting(true);
     try {
       const res = await orderApi.placeOrder({
-        delivery_address: address.trim(),
+        address_line1: addressLine1.trim(),
+        address_line2: addressLine2.trim() || undefined,
+        city: city.trim(),
+        state: state.trim(),
+        postal_code: postalCode.trim(),
+        country: country.trim(),
         notes: notes.trim() || undefined,
         coupon_code: appliedOffer?.coupon_code || undefined,
       });
@@ -215,16 +241,85 @@ export default function CheckoutPage() {
           🚚 Delivery Details
         </h3>
 
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">
+              Address Line 1 <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              value={addressLine1}
+              onChange={(e) => setAddressLine1(e.target.value)}
+              placeholder="Flat, House no., Building, Company, Apartment"
+              // required removed for custom validation
+              className="input-field"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">
+              Address Line 2
+            </label>
+            <input
+              type="text"
+              value={addressLine2}
+              onChange={(e) => setAddressLine2(e.target.value)}
+              placeholder="Area, Colony, Street, Sector, Village (optional)"
+              className="input-field"
+            />
+          </div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">
+              City <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+              placeholder="City"
+              // required removed for custom validation
+              className="input-field"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">
+              State <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              value={state}
+              onChange={(e) => setState(e.target.value)}
+              placeholder="State"
+              // required removed for custom validation
+              className="input-field"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">
+              Postal Code <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              value={postalCode}
+              onChange={(e) => setPostalCode(e.target.value)}
+              placeholder="Postal/ZIP Code"
+              // required removed for custom validation
+              className="input-field"
+            />
+          </div>
+        </div>
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Delivery Address <span className="text-red-500">*</span>
+            Country <span className="text-red-500">*</span>
           </label>
           <input
             type="text"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-            placeholder="Enter your complete delivery address"
-            required
+            value={country}
+            onChange={(e) => setCountry(e.target.value)}
+            placeholder="Country"
+            // required removed for custom validation
             className="input-field"
           />
         </div>

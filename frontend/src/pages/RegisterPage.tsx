@@ -48,7 +48,7 @@ export default function RegisterPage() {
                 placeholder="John Doe"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                required
+                // required removed for custom validation
                 className="input-field"
               />
             </div>
@@ -63,7 +63,7 @@ export default function RegisterPage() {
                 placeholder="you@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                required
+                // required removed for custom validation
                 className="input-field"
               />
             </div>
@@ -78,7 +78,7 @@ export default function RegisterPage() {
                 placeholder="Min 8 characters"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                required
+                // required removed for custom validation
                 minLength={8}
                 className="input-field"
               />
