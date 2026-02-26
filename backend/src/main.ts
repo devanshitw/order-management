@@ -22,26 +22,10 @@ async function bootstrap(): Promise<void> {
 
     // ✅ CORS Configuration (No CorsOptions import needed)
     app.enableCors({
-      origin: (
-        origin: string | undefined,
-        callback: (err: Error | null, allow?: boolean) => void,
-      ) => {
-        const allowedOrigins = [
-          process.env.FRONTEND_URL,
-          'http://localhost:5173',
-        ].filter(Boolean);
-
-        // Allow server-to-server or Postman (no origin)
-        if (!origin) {
-          return callback(null, true);
-        }
-
-        if (allowedOrigins.includes(origin)) {
-          callback(null, true);
-        } else {
-          callback(new Error(`Not allowed by CORS: ${origin}`));
-        }
-      },
+      origin: true,
+      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+      allowedHeaders: ['Content-Type', 'Authorization'],
+      credentials: true,
     });
 
     app.useGlobalPipes(
