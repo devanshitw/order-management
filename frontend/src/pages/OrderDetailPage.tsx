@@ -157,12 +157,14 @@ export default function OrderDetailPage() {
             </div>
           )}
 
-          {order.delivery_address && (
+          {order.address_line1 && (
             <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
               <span className="text-xl">📍</span>
               <div>
                 <p className="text-sm text-gray-600 font-medium">Delivery Address</p>
-                <p className="text-gray-900">{order.delivery_address}</p>
+                <p className="text-gray-900">
+                  {[order.address_line1, order.address_line2, order.city, order.state, order.postal_code, order.country].filter(Boolean).join(', ')}
+                </p>
               </div>
             </div>
           )}
